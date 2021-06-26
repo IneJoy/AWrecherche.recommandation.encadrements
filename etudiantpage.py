@@ -10,8 +10,16 @@ import webbrowser
 import re
 import sqlite3
 
+from PyQt5.QtGui import *
+from PyQt5.QtWidgets import *
+from PyQt5.QtCore import *
+
+
 from PyQt5 import QtCore, QtGui, QtWidgets
 from resultat import Ui_Form
+
+
+
 
 
 class Ui_etdpage(object):
@@ -23,6 +31,7 @@ class Ui_etdpage(object):
             newdata = newdata.replace(specialChar, '')
 
             newdata = newdata.replace(',', " ")
+
             newdata = newdata.replace('\\n', "\n\n")
             
         return newdata
@@ -34,6 +43,7 @@ class Ui_etdpage(object):
         self.recherche_2.setVisible(True)
         self.rechercheEns_2.setVisible(True)
         self.niveau_2.setVisible(True)
+        self.scrollArea.setVisible(False)
 
 
 
@@ -55,7 +65,7 @@ class Ui_etdpage(object):
             for mot in chaine.split():
                 print(mot)
                 c.execute(
-                    '''SELECT Titre, Niveau, Description, identifiant FROM tbl_theme WHERE UPPER(Niveau) REGEXP UPPER(?) ''',
+                    '''SELECT Titre, Niveau, Description, identifiant, CHAR(10) FROM tbl_theme WHERE UPPER(Niveau) REGEXP UPPER(?) ''',
                     [mot])
 
             db.commit()
@@ -81,7 +91,7 @@ class Ui_etdpage(object):
             for mot in chaine.split():
                 print(mot)
                 c.execute(
-                    '''SELECT Titre,Niveau,Description,identifiant FROM tbl_theme WHERE UPPER(Titre) REGEXP UPPER(?) OR UPPER(Description) REGEXP UPPER(?) OR UPPER(identifiant) REGEXP UPPER(?)''',
+                    '''SELECT Titre,Niveau,Description,identifiant, CHAR(10) FROM tbl_theme WHERE UPPER(Titre) REGEXP UPPER(?) OR UPPER(Description) REGEXP UPPER(?) OR UPPER(identifiant) REGEXP UPPER(?)''',
                     [mot, mot, mot])
 
             db.commit()
@@ -106,7 +116,7 @@ class Ui_etdpage(object):
             for mot in chaine.split():
                 print(mot)
                 c.execute(
-                    '''SELECT Titre, Niveau, Description, identifiant FROM tbl_theme WHERE UPPER(Titre) REGEXP UPPER(?) OR UPPER(Description) REGEXP UPPER(?) ''',
+                    '''SELECT Titre, Niveau, Description, identifiant , CHAR(10) FROM tbl_theme WHERE UPPER(Titre) REGEXP UPPER(?) OR UPPER(Description) REGEXP UPPER(?) ''',
                     [mot,mot])
 
 
@@ -125,7 +135,9 @@ class Ui_etdpage(object):
         self.rechercheEns_2.setVisible(False)
         self.result.setVisible(True)
         self.resultats.setVisible(True)
+        self.scrollArea.setVisible(True)
         self.resultats.setText(self.processString(str(data)))
+
 
 
 
@@ -234,6 +246,9 @@ class Ui_etdpage(object):
         self.result.setObjectName("result")
         self.result.setVisible(False)
 
+
+
+
         self.resultats = QtWidgets.QTextEdit(self.frame_3)
         self.resultats.setGeometry(QtCore.QRect(70, 30, 1311, 551))
         self.resultats.setStyleSheet("background : rgb(255, 255, 255);\n"
@@ -247,8 +262,28 @@ class Ui_etdpage(object):
 
 
         self.resultats.setObjectName("resultat")
+
+        self.resultats.setAlignment(Qt.AlignRight)
+
+
         self.resultats.setEnabled(False)
         self.resultats.setVisible(False)
+
+        self.scrollArea = QtWidgets.QScrollArea(self.frame_3)
+
+        self.scrollArea.setGeometry(QtCore.QRect(70, 30, 1311, 551))
+        self.scrollArea.setStyleSheet("background : rgb(255, 255, 255);\n"
+        "font: 15pt \"MS Shell Dlg 2\";\n"
+        "border-style : outset;\n"
+        "border-radius: 10px;\n"
+        "border-color: black;\n"
+        "padding: 6px;\n"
+        "color:#000000;\n"
+        "min-width: 10px;")
+        self.scrollArea.setWidget(self.resultats)
+        self.scrollArea.setVisible(False)
+
+
 
         self.retour = QtWidgets.QPushButton(self.frame_3)
         self.retour.setGeometry(QtCore.QRect(1050, 490, 231, 41))
@@ -260,14 +295,8 @@ class Ui_etdpage(object):
 "padding: 6px;\n"
 "min-width: 10px;")
         self.retour.setText("Retour")
-
-
         self.retour.setObjectName("Retour")
         self.retour.setVisible(False)
-
-
-
-
 
 
 
