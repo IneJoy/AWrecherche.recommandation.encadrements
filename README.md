@@ -11,5 +11,6 @@ Interface de la page qui affiche les résultats de recherche :
 ![RésultatsRecherche](https://user-images.githubusercontent.com/86208137/123322208-eb203a80-d52b-11eb-99bd-f8fad1ad4dd0.png)
 
 Interface de la page enseignant (Afin d'ajouter un thème, supprimer ou consulter ses thèmes):
-![PageEnseignant](https://user-images.githubusercontent.com/86208137/123322469-43573c80-d52c-11eb-9c97-13bdfd4608ee.png)
+![123322469-43573c80-d52c-11eb-9c97-13bdfd4608ee](https://user-images.githubusercontent.com/86208137/124514106-352ed900-ddd4-11eb-8ef6-f04ed7d418ed.png)
+
 
